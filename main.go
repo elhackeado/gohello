@@ -28,15 +28,21 @@ func main() {
 	})
 
 	e.GET("/health", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, map[string]string{"status": "OK"})
+		return c.JSON(http.StatusOK, map[string]string{
+			"status":        "OK",
+			"node_name":     node,
+			"pod_namespace": namespace,
+			"pod_name":      pod,
+			"pod_ip":        podIP,
+		})
 	})
 
 	e.GET("/service/vessel", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from vessel endpoint !!")
+		return c.String(http.StatusOK, "Hello from vessel endpoint !!"+" node_name : "+node+" pod_name : "+pod+" pod_ip: "+podIP)
 	})
 
 	e.GET("/service/container", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from container endpoint !!")
+		return c.String(http.StatusOK, "Hello from container endpoint !!"+" node_name : "+node+" pod_name : "+pod+" pod_ip: "+podIP)
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))
