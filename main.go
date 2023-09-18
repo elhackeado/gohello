@@ -5,11 +5,13 @@ import (
 	"os"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
 
 	e := echo.New()
+	e.Use(middleware.Logger())
 
 	cluster := os.Getenv("CLUSTER_NAME")
 	node := os.Getenv("NODE_NAME")
