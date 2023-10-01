@@ -27,18 +27,19 @@ jobs:
       - name: Go Test
         run: |
           go test -coverprofile=coverage.out -count=1 ./...
-          go tool cover -html coverage.out -o docs/test-results/coverage.html
+          rm docs/test-results/index.html
+          go tool cover -html coverage.out -o docs/test-results/index.html
       
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-report-${{ github.ref_name }}
-          path: coverage.html
+          path: docs/test-results/index.html
           retention-days: 5
       
       - name: Publish Coverage Results
         run: |
-          git add coverage.html
+          git add docs/test-results/index.html
           git commit -m "publish test result"
           git push origin ${{ github.ref_name }}
       
