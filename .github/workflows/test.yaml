@@ -16,7 +16,7 @@ jobs:
   unit-test-coverage:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code for threshold
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Go
@@ -27,7 +27,7 @@ jobs:
       - name: Go Test
         run: |
           go test -coverprofile=coverage.out -count=1 ./...
-          go tool cover -html coverage.out -o coverage.html
+          go tool cover -html coverage.out -o docs/test-results/coverage.html
       
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -35,5 +35,10 @@ jobs:
           name: code-coverage-report-${{ github.ref_name }}
           path: coverage.html
           retention-days: 5
-
+      
+      - name: Publish Coverage Results
+        runs: |
+          git add coverage.html
+          git commit -m "publish test result"
+          git push origin ${{ github.ref_name }}
       
