@@ -37,7 +37,7 @@ jobs:
           retention-days: 5
       
       - name: Publish Coverage Results
-        runs: |
+        run: |
           git add coverage.html
           git commit -m "publish test result"
           git push origin ${{ github.ref_name }}
